@@ -1,15 +1,16 @@
 const Prof = require("../SchemaModels/ProfSchema");
+const bcrypt = require("bcryptjs");
 
 const getAllProfs = async (req, res) => {
   try {
     const profs = await Prof.find();
     if (profs.length === 0) {
-      res.status(201).json({ msg: "your database is empty" });
+      res.status(201).json({ errors: [{ msg: "your database is empty" }] });
     } else {
       res.status(200).json({ profs: profs });
     }
   } catch (error) {
-    res.status(400).json({ msg: "get all profs is failed" });
+    res.status(400).json({ errors: [{ msg: "get all professors is failed" }] });
   }
 };
 const getOneProf = async (req, res) => {
@@ -17,24 +18,27 @@ const getOneProf = async (req, res) => {
   try {
     const searchedProf = await Prof.findOne({ _id: id });
     if (!searchedProf) {
-      return res.status(101).json({ msg: "Prof not found" });
+      return res.status(101).json({ errors: [{ msg: "professor not found" }] });
     } else {
       res.status(200).json({ prof: searchedProf });
     }
   } catch (error) {
-    res.status(400).json({ msg: "getting one Prof is failed" });
+    res
+      .status(400)
+      .json({ errors: [{ msg: "getting one professor is failed" }] });
   }
 };
 const addProf = async (req, res) => {
   const profInfo = req.body;
   try {
+    const hashedPasword = await bcrypt.hash(profInfo.password, 10);
     const newProf = new Prof({
       firstName: profInfo.firstName,
       lastName: profInfo.lastName,
       age: profInfo.age,
       email: profInfo.email,
-      password: profInfo.password,
-      gender : profInfo.gender,
+      password: hashedPasword,
+      gender: profInfo.gender,
       Pict: profInfo.Pict,
       Phone: profInfo.Phone,
       address: profInfo.address,
@@ -49,13 +53,13 @@ const addProf = async (req, res) => {
     const profs = await Prof.find();
     const searchedProf = profs.find((elt) => elt.email == profInfo.email);
     if (searchedProf) {
-      res.status(201).json({ msg: "Prof already exist" });
+      res.status(201).json({ errors: [{ msg: "professor already exist" }] });
     } else {
       await newProf.save();
       res.status(200).json({ prof: newProf });
     }
   } catch (error) {
-    res.status(400).json({ msg: "add prof is failed" });
+    res.status(400).json({ errors: [{ msg: "add professor is failed" }] });
   }
 };
 const deteleProf = async (req, res) => {
@@ -63,9 +67,11 @@ const deteleProf = async (req, res) => {
   try {
     await Prof.findByIdAndDelete(id);
     const profs = await Prof.find();
-    res.status(200).json({ msg: "delete is succesfully done", profs: profs });
+    res
+      .status(200)
+      .json({ errors: [{ msg: "delete is succesfully done" }], profs: profs });
   } catch (error) {
-    res.status(400).json({ msg: "delete Prof is failed" });
+    res.status(400).json({ errors: [{ msg: "delete professor is failed" }] });
   }
 };
 const updateProf = async (req, res) => {
@@ -77,9 +83,14 @@ const updateProf = async (req, res) => {
     });
 
     const profs = await Prof.find();
-    res.status(200).json({ msg: "update prof is succesfully", updateProf });
+    res
+      .status(200)
+      .json({
+        errors: [{ msg: "update professor is succesfully" }],
+        updateProf,
+      });
   } catch (error) {
-    res.status(400).json({ msg: "update prof is failed" });
+    res.status(400).json({ errors: [{ msg: "update professor is failed" }] });
   }
 };
 

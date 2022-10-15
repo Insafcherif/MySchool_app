@@ -5,8 +5,8 @@ const port = process.env.PORT;
 const connectdb = require("./config/connectdb");
 const profRouter = require("./Routers/ProfRouters");
 const userRouter = require("./Routers/UserRouters");
-const partRouter = require("./Routers/ParRouter")
-
+const partRouter = require("./Routers/ParRouter");
+const authRouter = require("./Routers/authRouters");
 
 app.use(express.json());
 app.listen(port, (e) => {
@@ -19,5 +19,5 @@ connectdb();
 
 app.use("/api", userRouter);
 app.use("/api/prof", profRouter);
-app.use("/api/part", partRouter)
-
+app.use("/api/part", partRouter);
+app.use("/api", authRouter);
