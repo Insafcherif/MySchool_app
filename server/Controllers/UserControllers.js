@@ -38,7 +38,7 @@ const addUser = async (req, res) => {
       email: userInfo.email,
       password: hashedPasword,
       gender: userInfo.gender,
-      Pict: req.file.filename,
+      Pict: userInfo.Pict,
       Phone: userInfo.Phone,
       address: userInfo.address,
       role: userInfo.role,

@@ -25,7 +25,7 @@ function AbstractBaseSchema() {
       default:
         "https://www.kindpng.com/picc/m/78-785917_user-login-function-name-avatar-user-icon-hd.png",
     },
-    Phone: { type: String },
+    Phone: { type: Number },
     address: { type: String },
   });
 }

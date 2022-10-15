@@ -1,0 +1,25 @@
+{
+  "name": "myschool_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server" : "cd server && nodemon index.js",
+    "client" : "cd client && npm start",
+    "start": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Insafcherif/MySchool_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Insafcherif/MySchool_app/issues"
+  },
+  "homepage": "https://github.com/Insafcherif/MySchool_app#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
+}

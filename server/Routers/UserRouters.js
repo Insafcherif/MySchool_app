@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../Midelwars/Upload");
 const {
   getAllUsers,
   getOneUser,
@@ -11,7 +10,7 @@ const {
 
 router.get("/allusers", getAllUsers);
 router.get("/:id", getOneUser);
-router.post("/adduser", upload.single("Pict"), addUser);
+router.post("/adduser", addUser);
 router.delete("/:id", deleteUser);
 router.put("/:id", updateUser);
 

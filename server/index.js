@@ -7,7 +7,9 @@ const profRouter = require("./Routers/ProfRouters");
 const userRouter = require("./Routers/UserRouters");
 const partRouter = require("./Routers/ParRouter");
 const authRouter = require("./Routers/authRouters");
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 app.listen(port, (e) => {
   e
