@@ -34,21 +34,25 @@ const addProf = async (req, res) => {
       age: profInfo.age,
       email: profInfo.email,
       password: profInfo.password,
+      gender : profInfo.gender,
+      Pict: profInfo.Pict,
+      Phone: profInfo.Phone,
+      address: profInfo.address,
+      role: profInfo.role,
       bio: profInfo.bio,
       date_of_birth: profInfo.date_of_birth,
       contactType: profInfo.contactType,
       ContactDate: profInfo.ContactDate,
       subject: profInfo.subject,
+      empolyee_id: profInfo.empolyee_id,
     });
     const profs = await Prof.find();
-    const searchedProf = profs.find(
-      (elt) => elt.email == profInfo.email
-    );
+    const searchedProf = profs.find((elt) => elt.email == profInfo.email);
     if (searchedProf) {
       res.status(201).json({ msg: "Prof already exist" });
     } else {
       await newProf.save();
-      res.status(200).json({ prof : newProf });
+      res.status(200).json({ prof: newProf });
     }
   } catch (error) {
     res.status(400).json({ msg: "add prof is failed" });
@@ -59,9 +63,7 @@ const deteleProf = async (req, res) => {
   try {
     await Prof.findByIdAndDelete(id);
     const profs = await Prof.find();
-    res
-      .status(200)
-      .json({ msg: "delete is succesfully done", profs: profs });
+    res.status(200).json({ msg: "delete is succesfully done", profs: profs });
   } catch (error) {
     res.status(400).json({ msg: "delete Prof is failed" });
   }

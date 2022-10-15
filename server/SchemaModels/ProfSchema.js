@@ -17,6 +17,10 @@ const profSchema = new AbstractBaseSchema({
     type: String,
     required: false,
   },
+  empolyee_id: {
+    type: Number,
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("prof", profSchema);

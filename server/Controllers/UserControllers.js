@@ -35,6 +35,11 @@ const addUser = async (req, res) => {
       age: userInfo.age,
       email: userInfo.email,
       password: userInfo.password,
+      gender : userInfo.gender,
+      Pict: userInfo.Pict,
+      Phone : userInfo.Phone,
+      address: userInfo.address, 
+      role: userInfo.role 
     });
     const users = await User.find();
     const searchedUser = users.find((elt) => elt.email == userInfo.email);

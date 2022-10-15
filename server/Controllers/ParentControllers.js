@@ -34,6 +34,11 @@ const addParent = async (req, res) => {
       age: parentInfo.age,
       email: parentInfo.email,
       password: parentInfo.password,
+      gender : parentInfo.gender,
+      Pict: parentInfo.Pict,
+      Phone : parentInfo.Phone,
+      address: parentInfo.address, 
+      role: parentInfo.role,
       Job: parentInfo.Job,
       Student: parentInfo.Student,
     });
