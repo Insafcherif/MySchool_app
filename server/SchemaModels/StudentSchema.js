@@ -24,7 +24,9 @@ const studSchema = mongoose.Schema({
     required: false,
   },
   attdenList: [],
-  markList: [],
+  noteList: [],
+  evalu : []
+  
 });
 
 module.exports = mongoose.model("student", studSchema);

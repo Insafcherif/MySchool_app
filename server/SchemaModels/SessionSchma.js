@@ -7,5 +7,6 @@ const SessionSchema = mongoose.Schema({
     enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
   },
   ClassSess : [], 
-  Subject : []
+  Subject : [],
+  attendence: []
 });

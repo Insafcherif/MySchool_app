@@ -10,10 +10,10 @@ const classSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  ListOfStudent: [],
-  ListOfSubject: [],
-  ListOfProf: [],
+  ListOfStudents: [],
+  ListOfSubjects: [],
+  ListOfProfs: [],
   Session: [],
   HomeWork: { type: String },
 });
-module.exports = mongoose.model("student", studSchema);
+module.exports = mongoose.model("class", classSchema);
