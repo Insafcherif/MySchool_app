@@ -5,7 +5,8 @@ const {
   signUp,
   signUpPart,
   signUpProf,
-} = require("../Controllers/isAuthControllers");
+  
+} = require("../Controllers/AuthControllers");
 const {
   signUpIBaseShemaVal,
   SignUpParentVal,

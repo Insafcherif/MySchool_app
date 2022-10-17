@@ -3,6 +3,9 @@ const Parent = require("../SchemaModels/ParentSchema");
 const Prof = require("../SchemaModels/ProfSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const mailgun = require("mailgun-js");
+const DOMAIN = "sandbox34cdab0c7d95468eb61feb38421f5e17.mailgun.org";
+const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
 
 const signUp = async (req, res) => {
   const userInfo = req.body;
@@ -12,29 +15,59 @@ const signUp = async (req, res) => {
       res.status(401).json({ errors: [{ msg: "user already exist" }] });
     }
     if (!searchedUser) {
-      const hashedPasword = await bcrypt.hash(userInfo.password, 10);
-      const user = new User({
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        age: userInfo.age,
-        email: userInfo.email,
-        password: hashedPasword,
-        gender: userInfo.gender,
-        Pict: userInfo.Pict,
-        Phone: userInfo.Phone,
-        address: userInfo.address,
-        role: userInfo.role,
+      const token = jwt.sign({ id: userInfo._id }, "shhhhh");
+      const data = {
+        from: "noreply@Hello.com",
+        to: userInfo.email,
+        subject: "Account activation Link",
+        html: `
+        <h2> Please click on given link to activate you account<h2>
+        <a> ${process.env.CLIENT_URL}/authentification/activate/${token} <a>`,
+      };
+      mg.messages().send(data, function (error, body) {
+        if (error) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: "send email failed" }] });
+        }
+        return res.status(201).json({
+          errors: [
+            {
+              msg: `Email has been sent to ${userInfo.email}, kindly activate your account `,
+            },
+          ],
+        });
       });
-      await user.save();
-      const token = jwt.sign({ id: user._id }, "shhhhh");
-      res
+    }
+  } catch (error) {
+    res.status(500).json({ errors: [{ msg: "server failed" }] });
+  }
+};
+
+const activateAccount = async (req, res) => {
+  const [token] = req.body;
+  if (token) {
+    jwt.verify(token, "shhhhh", function(err, decoedToken){
+      if(err){
+        return res.status(400).json({ errors: [{ msg: "Incorrect or expired link" }] });
+      }
+      const {firstName, lastName, age, email,  password, gender,   Pict, Phone,  address ,   role, } = decoedToken
+      const searchedUser =  User.findOne({ email });
+      if (searchedUser) {
+        res.status(401).json({ errors: [{ msg: "user already exist" }] });
+      }
+      if (!searchedUser) {
+  
+      const user = new User({
+        firstName, lastName, age, email,  password, gender,   Pict, Phone,  address ,   role, });
+      user.save();
+      return res
         .status(200)
         .json({ errors: [{ message: "saved successfully", user, token }] });
     }
-  } catch (error) {
-    res.status(500).json({ errors: [{ msg: "server failed exist" }] });
-  }
-};
+   else {
+    return res.status(500).json({ errors: [{ msg: "Something went wrong" }]})};
+  })};
 
 const signUpPart = async (req, res) => {
   const parentInfo = req.body;
@@ -131,4 +164,4 @@ const logIn = async (req, res) => {
   }
 };
 
-module.exports = { logIn, signUp, signUpPart, signUpProf };
+module.exports = { logIn, signUp, signUpPart, signUpProf, activateAccount }
