@@ -10,7 +10,7 @@ const getAllProfs = async (req, res) => {
       res.status(200).json({ profs: profs });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "get all professors is failed" }] });
+    res.status(500).json({ errors: [{ msg: "get all professors is failed" }] });
   }
 };
 const getOneProf = async (req, res) => {
@@ -24,7 +24,7 @@ const getOneProf = async (req, res) => {
     }
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ errors: [{ msg: "getting one professor is failed" }] });
   }
 };
@@ -59,19 +59,19 @@ const addProf = async (req, res) => {
       res.status(200).json({ prof: newProf });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "add professor is failed" }] });
+    res.status(500).json({ errors: [{ msg: "add professor is failed" }] });
   }
 };
 const deteleProf = async (req, res) => {
   const id = req.params.id;
   try {
-    await Prof.findByIdAndDelete(id);
+    await Prof.findById(id);
     const profs = await Prof.find();
     res
       .status(200)
       .json({ errors: [{ msg: "delete is succesfully done" }], profs: profs });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "delete professor is failed" }] });
+    res.status(500).json({ errors: [{ msg: "delete professor is failed" }] });
   }
 };
 const updateProf = async (req, res) => {
@@ -90,7 +90,7 @@ const updateProf = async (req, res) => {
         updateProf,
       });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "update professor is failed" }] });
+    res.status(500).json({ errors: [{ msg: "update professor is failed" }] });
   }
 };
 

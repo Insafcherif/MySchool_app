@@ -11,7 +11,7 @@ const getAllParents = async (req, res) => {
       res.status(200).json({ parents: parents });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "get all parents is failed" }] });
+    res.status(500).json({ errors: [{ msg: "get all parents is failed" }] });
   }
 };
 const getOneParent = async (req, res) => {
@@ -24,7 +24,7 @@ const getOneParent = async (req, res) => {
       res.status(200).json({ parent: searchedParent });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "getting one parent is failed" }] });
+    res.status(500).json({ errors: [{ msg: "getting one parent is failed" }] });
   }
 };
 const addParent = async (req, res) => {
@@ -59,7 +59,7 @@ const addParent = async (req, res) => {
         });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "add parent is failed" }] });
+    res.status(500).json({ errors: [{ msg: "add parent is failed" }] });
   }
 };
 const deleteParent = async (req, res) => {
@@ -74,7 +74,7 @@ const deleteParent = async (req, res) => {
         parents: parents,
       });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "delete parent is failed" }] });
+    res.status(500).json({ errors: [{ msg: "delete parent is failed" }] });
   }
 };
 const updateParent = async (req, res) => {
@@ -93,7 +93,7 @@ const updateParent = async (req, res) => {
         updatedParent,
       });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "update parent is failed" }] });
+    res.status(500).json({ errors: [{ msg: "update parent is failed" }] });
   }
 };
 

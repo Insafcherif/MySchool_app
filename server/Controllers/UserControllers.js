@@ -10,7 +10,7 @@ const getAllUsers = async (req, res) => {
       res.status(200).json({ users: users });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "get all users is failed" }] });
+    res.status(500).json({ errors: [{ msg: "get all users is failed" }] });
   }
 };
 
@@ -24,7 +24,7 @@ const getOneUser = async (req, res) => {
       res.status(200).json({ user: searchedUser });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "getting one user is failed" }] });
+    res.status(500).json({ errors: [{ msg: "getting one user is failed" }] });
   }
 };
 const addUser = async (req, res) => {
@@ -49,15 +49,13 @@ const addUser = async (req, res) => {
       res.status(201).json({ errors: [{ msg: "user already exist" }] });
     } else {
       await newUser.save();
-      res
-        .status(200)
-        .json({
-          errors: [{ msg: "add user is succesfully done" }],
-          user: newUser,
-        });
+      res.status(200).json({
+        errors: [{ msg: "add user is succesfully done" }],
+        user: newUser,
+      });
     }
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "add user is failed" }] });
+    res.status(500).json({ errors: [{ msg: "add user is failed" }] });
   }
 };
 const deleteUser = async (req, res) => {
@@ -69,7 +67,7 @@ const deleteUser = async (req, res) => {
       .status(200)
       .json({ errors: [{ msg: "delete is succesfully done" }], users: users });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "delete user is failed" }] });
+    res.status(500).json({ errors: [{ msg: "delete user is failed" }] });
   }
 };
 const updateUser = async (req, res) => {
@@ -79,13 +77,12 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, userInfo, {
       new: true,
     });
-
     const users = await User.find();
     res
       .status(200)
       .json({ errors: [{ msg: "update user is succesfully" }], updatedUser });
   } catch (error) {
-    res.status(400).json({ errors: [{ msg: "update user is failed" }] });
+    res.status(500).json({ errors: [{ msg: "update user is failed" }] });
   }
 };
 
